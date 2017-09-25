@@ -3,12 +3,6 @@ class Engine
     @scene_map = scene_map
   end
 
-  class Scene
-    def enter(0)
-      exit(0)
-    end
-  end
-
   def play()
     current_scene = @scene_map.opening_scene()
     last_scene = @scene_map.next_scene('finish')
@@ -22,24 +16,35 @@ class Engine
 end
 
 class Map
-  @@scenes = {'beginning' => BeginningScene.new(),
-    'koi_fish_pond' =>KoiFishPondScene.new(),
+  @@scenes = {
+    'beginning' => BeginningScene.new(),
+    'koifishpond' => KoiFishPondScene.new(),
     'cabin' => Cabin.new(),
     'treehouse' => TreehouseScene.new(),
     'bridge' => Bridge.new(),
     'shrine' => ShrineScene.new(),
     'death' => DeathScene.new(),
-    'finish' => FinishScene.new()
+    'finish' => FinishScene.new(),
   }
 
   def initialize(start_scene)
     @start_scene = start_scene
   end
+
   def next_scene(scene_name)
     value = @@scenes[scene_name]
     return value
   end
+
   def opening_scene()
     return next_scene(@start_scene)
   end
+
+
+  class Scene
+    def enter()
+      exit()
+    end
+  end
+
 end
